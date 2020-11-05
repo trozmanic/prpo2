@@ -2,11 +2,15 @@ package si.fri.prpo.skupina57.katalog.entitete;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "govorilna_ura")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "GovorilnUra.getAll", query = "SELECT gu FROM govorilna_ura gu")
+                @NamedQuery(name = "GovorilnUra.getAll", query = "SELECT gu FROM govorilna_ura gu"),
+                @NamedQuery(name = "GovorilnUra.getStudenti", query = "SELECT gu.studenti FROM govorilna_ura gu WHERE gu.id = :id"),
+                @NamedQuery(name = "GovorilnUra.getDatumUra", query = "select gu.datum, gu.ura FROM  govorilna_ura gu WHERE gu.id = :id"),
+                @NamedQuery(name = "GovorilnUra.getProfesor", query = "SELECT gu.profesor FROM govorilna_ura gu WHERE gu.id = :id")
         })
 public class GovorilnaUra {
 
@@ -25,6 +29,14 @@ public class GovorilnaUra {
     @ManyToOne
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
+
+    @ManyToMany
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "govorilne_ure_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+
+    )
+    private List<Student> studenti;
 
     public Integer getId() {
         return id;

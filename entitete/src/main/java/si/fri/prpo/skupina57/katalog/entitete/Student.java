@@ -1,11 +1,15 @@
 package si.fri.prpo.skupina57.katalog.entitete;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "student")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Student.getAll", query = "SELECT s FROM student s")
+                @NamedQuery(name = "Student.getAll", query = "SELECT s FROM student s"),
+                @NamedQuery(name = "Student.getStudent", query = "SELECT s FROM student s WHERE s.id = :id"),
+                @NamedQuery(name = "Student.getGovorilneUre", query = "select s.govorilneUre FROM  student s WHERE s.id = :id"),
+                @NamedQuery(name = "Student.getLetnik", query = "SELECT s.letnik FROM student s WHERE s.id = :id")
         })
 public class Student {
 
@@ -20,6 +24,9 @@ public class Student {
     private String priimek;
 
     private Integer letnik;
+
+    @ManyToMany(mappedBy = "studenti")
+    private List<GovorilnaUra> govorilneUre;
 
     public Integer getId() {
         return id;
