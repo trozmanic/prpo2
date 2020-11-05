@@ -9,7 +9,7 @@ import java.util.List;
         {
                 @NamedQuery(name = "GovorilnUra.getAll", query = "SELECT gu FROM govorilna_ura gu"),
                 @NamedQuery(name = "GovorilnUra.getStudenti", query = "SELECT gu.studenti FROM govorilna_ura gu WHERE gu.id = :id"),
-                @NamedQuery(name = "GovorilnUra.getDatumUra", query = "select gu.datum, gu.ura FROM  govorilna_ura gu WHERE gu.id = :id"),
+                @NamedQuery(name = "GovorilnUra.getDatumUra", query = "SELECT gu.datum, gu.ura FROM  govorilna_ura gu WHERE gu.id = :id"),
                 @NamedQuery(name = "GovorilnUra.getProfesor", query = "SELECT gu.profesor FROM govorilna_ura gu WHERE gu.id = :id")
         })
 public class GovorilnaUra {
@@ -30,8 +30,12 @@ public class GovorilnaUra {
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
-    @ManyToMany
+    @ManyToMany( cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(
+            name = "zbirka",
             joinColumns = @JoinColumn(name = "govorilne_ure_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
 
@@ -73,5 +77,18 @@ public class GovorilnaUra {
 
     public void setKanal(String kanal) {
         this.kanal = kanal;
+    }
+
+    @Override
+    public String toString() {
+        return "GovorilnaUra{" +
+                "id=" + id +
+                ", datum=" + datum +
+                ", ura='" + ura + '\'' +
+                ", kapaciteta=" + kapaciteta +
+                ", kanal='" + kanal + '\'' +
+                ", profesor=" + profesor +
+                ", studenti=" + studenti +
+                '}';
     }
 }

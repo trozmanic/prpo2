@@ -8,7 +8,7 @@ import java.util.List;
         {
                 @NamedQuery(name = "Profesor.getAll", query = "SELECT p FROM profesor p"),
                 @NamedQuery(name = "Profesor.getProfesor", query = "SELECT p FROM profesor p WHERE p.id = :id"),
-                @NamedQuery(name = "Profesor.getGovorilneUre", query = "select p.govorilneUre FROM  profesor p WHERE p.id = :id"),
+                @NamedQuery(name = "Profesor.getGovorilneUre", query = "SELECT p.govorilneUre FROM  profesor p WHERE p.id = :id"),
                 @NamedQuery(name = "Profesor.getPredmet", query = "SELECT p.predmet FROM profesor p WHERE p.id = :id")
         })
 public class Profesor {
@@ -54,4 +54,14 @@ public class Profesor {
         this.predmet = predmet;
     }
 
+    @Override
+    public String toString() {
+        return "Profesor{" +
+                "id=" + id +
+                ", ime='" + ime + '\'' +
+                ", priimek='" + priimek + '\'' +
+                ", predmet='" + predmet + '\'' +
+                ", govorilneUre=" + govorilneUre +
+                '}';
+    }
 }

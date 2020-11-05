@@ -8,7 +8,7 @@ import java.util.List;
         {
                 @NamedQuery(name = "Student.getAll", query = "SELECT s FROM student s"),
                 @NamedQuery(name = "Student.getStudent", query = "SELECT s FROM student s WHERE s.id = :id"),
-                @NamedQuery(name = "Student.getGovorilneUre", query = "select s.govorilneUre FROM  student s WHERE s.id = :id"),
+                @NamedQuery(name = "Student.getGovorilneUre", query = "SELECT s.govorilneUre FROM  student s WHERE s.id = :id"),
                 @NamedQuery(name = "Student.getLetnik", query = "SELECT s.letnik FROM student s WHERE s.id = :id")
         })
 public class Student {
@@ -17,6 +17,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "vpisna_stevilka")
     private Integer vpisnaStevilka;
 
     private String ime;
@@ -65,5 +66,15 @@ public class Student {
         this.letnik = letnik;
     }
 
-
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", vpisnaStevilka=" + vpisnaStevilka +
+                ", ime='" + ime + '\'' +
+                ", priimek='" + priimek + '\'' +
+                ", letnik=" + letnik +
+                ", govorilneUre=" + govorilneUre +
+                '}';
+    }
 }
