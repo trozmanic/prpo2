@@ -1,0 +1,7 @@
+kumuluzee:
+
+  datasources:
+      - jndi-name: jdbc/KatalogDB
+        connection-url: jdbc:postgresql://localhost:5432/govorilne_ure
+        username: postgres
+        password: postgres
