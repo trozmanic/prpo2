@@ -83,6 +83,22 @@ public class GovorilnaUra {
         this.kanal = kanal;
     }
 
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
+    public List<Student> getStudenti() {
+        return studenti;
+    }
+
+    public void setStudenti(List<Student> studenti) {
+        this.studenti = studenti;
+    }
+
     @Override
     public String toString() {
         return "GovorilnaUra{" +

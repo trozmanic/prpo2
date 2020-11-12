@@ -37,6 +37,14 @@ public class Student {
         this.id = id;
     }
 
+    public List<GovorilnaUra> getGovorilneUre() {
+        return govorilneUre;
+    }
+
+    public void setGovorilneUre(List<GovorilnaUra> govorilneUre) {
+        this.govorilneUre = govorilneUre;
+    }
+
     public Integer getVpisnaStevilka() {
         return vpisnaStevilka;
     }

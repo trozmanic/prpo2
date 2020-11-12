@@ -38,6 +38,14 @@ public class Profesor {
         return ime;
     }
 
+    public List<GovorilnaUra> getGovorilneUre() {
+        return govorilneUre;
+    }
+
+    public void setGovorilneUre(List<GovorilnaUra> govorilneUre) {
+        this.govorilneUre = govorilneUre;
+    }
+
     public void setIme(String ime) {
         this.ime = ime;
     }
