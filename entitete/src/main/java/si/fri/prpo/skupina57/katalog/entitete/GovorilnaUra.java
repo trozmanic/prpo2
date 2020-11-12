@@ -7,10 +7,10 @@ import java.util.List;
 @Entity(name = "govorilna_ura")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "GovorilnUra.getAll", query = "SELECT gu FROM govorilna_ura gu"),
-                @NamedQuery(name = "GovorilnUra.getStudenti", query = "SELECT gu.studenti FROM govorilna_ura gu WHERE gu.id = :id"),
-                @NamedQuery(name = "GovorilnUra.getDatumUra", query = "SELECT gu.datum, gu.ura FROM  govorilna_ura gu WHERE gu.id = :id"),
-                @NamedQuery(name = "GovorilnUra.getProfesor", query = "SELECT gu.profesor FROM govorilna_ura gu WHERE gu.id = :id")
+                @NamedQuery(name = "GovorilnaUra.getAll", query = "SELECT gu FROM govorilna_ura gu"),
+                @NamedQuery(name = "GovorilnaUra.getStudenti", query = "SELECT gu.studenti FROM govorilna_ura gu WHERE gu.id = :id"),
+                @NamedQuery(name = "GovorilnaUra.getDatumUra", query = "SELECT gu.datum, gu.ura FROM  govorilna_ura gu WHERE gu.id = :id"),
+                @NamedQuery(name = "GovorilnaUra.getProfesor", query = "SELECT gu.profesor FROM govorilna_ura gu WHERE gu.id = :id")
         })
 public class GovorilnaUra {
 
@@ -44,6 +44,10 @@ public class GovorilnaUra {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 

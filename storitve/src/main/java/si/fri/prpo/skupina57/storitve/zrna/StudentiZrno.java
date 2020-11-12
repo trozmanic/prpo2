@@ -1,6 +1,5 @@
-package si.fri.prpo.skupina57.storitve;
+package si.fri.prpo.skupina57.storitve.zrna;
 
-import org.eclipse.persistence.logging.SessionLog;
 import si.fri.prpo.skupina57.katalog.entitete.Student;
 
 import javax.annotation.PostConstruct;

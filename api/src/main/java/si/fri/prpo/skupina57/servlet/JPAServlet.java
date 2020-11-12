@@ -1,11 +1,9 @@
 package si.fri.prpo.skupina57.servlet;
 
 import si.fri.prpo.skupina57.katalog.entitete.Student;
-import si.fri.prpo.skupina57.storitve.StudentiZrno;
+import si.fri.prpo.skupina57.storitve.zrna.StudentiZrno;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
