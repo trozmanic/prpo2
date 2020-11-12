@@ -23,7 +23,8 @@ public class Profesor {
 
     private String predmet;
 
-    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
+    //fetch = FetchType.EAGER NUJNO, ker default je LAZY, in nam je skos dalo IndirectList not instantiated
+    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<GovorilnaUra> govorilneUre;
 
     public Integer getId() {
@@ -68,12 +69,21 @@ public class Profesor {
 
     @Override
     public String toString() {
+
+        //preveri, da ni null pointer nujno
+        String gov_ure;
+        if (govorilneUre == null) {
+            gov_ure = "null";
+        } else {
+            gov_ure = govorilneUre.toString();
+        }
+
         return "Profesor{" +
                 "id=" + id +
                 ", ime='" + ime + '\'' +
                 ", priimek='" + priimek + '\'' +
                 ", predmet='" + predmet + '\'' +
-                ", govorilneUre=" + govorilneUre +
+                ", govorilneUre=" + gov_ure +
                 '}';
     }
 }

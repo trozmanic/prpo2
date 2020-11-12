@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina57.katalog.entitete;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
@@ -30,15 +31,16 @@ public class GovorilnaUra {
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
+    //fetch = FetchType.EAGER NUJNO, ker default je LAZY, in nam je skos dalo IndirectList not instantiated
     @ManyToMany( cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+            CascadeType.MERGE,
+    },
+    fetch = FetchType.EAGER)
     @JoinTable(
             name = "zbirka",
             joinColumns = @JoinColumn(name = "govorilne_ure_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
-
     )
     private List<Student> studenti;
 
@@ -101,14 +103,42 @@ public class GovorilnaUra {
 
     @Override
     public String toString() {
+
+        //to je drugacno od ostalih atributov zato,
+        //ker pol profesor spet klilce govorilnaUra.toString(), ZATO, DA NI INFINITE LOOP,
+        String pro = "'null'";
+        if (profesor != null) {
+            pro = profesor.getId().toString();
+        }
+        //to je drugacno od ostalih atributov zato,
+        //ker pol student spet klilce govorilnaUra.toString(), ZATO, DA NI INFINITE LOOP,
+        //3 opcije null, empty, seznam
+        String stu;
+        if (studenti == null) {
+            stu = "null";
+        } else if (studenti.isEmpty()) {
+            stu = "[]";
+        } else {
+            stu = "[";
+            for (int i = 0; i < studenti.size(); i++) {
+                if (i == 0) {
+                    stu += studenti.get(i).getIme();
+                } else {
+                    stu += ", " + studenti.get(i).getIme();
+                }
+            }
+            stu += "]";
+        }
+
         return "GovorilnaUra{" +
                 "id=" + id +
-                ", datum=" + datum +
+                ", datum=" + "'" + datum + "'" +
                 ", ura='" + ura + '\'' +
                 ", kapaciteta=" + kapaciteta +
                 ", kanal='" + kanal + '\'' +
-                ", profesor=" + profesor +
-                ", studenti=" + studenti +
+                ", profesor=" + pro +
+                ", studenti=" + stu  +
                 '}';
     }
+
 }

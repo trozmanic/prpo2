@@ -26,7 +26,8 @@ public class Student {
 
     private Integer letnik;
 
-    @ManyToMany(mappedBy = "studenti")
+    //fetch = FetchType.EAGER NUJNO, ker default je LAZY, in nam je skos dalo IndirectList not instantiated
+    @ManyToMany(mappedBy = "studenti", fetch = FetchType.EAGER)
     private List<GovorilnaUra> govorilneUre;
 
     public Integer getId() {
@@ -79,13 +80,22 @@ public class Student {
 
     @Override
     public String toString() {
+
+        //preveri, da ni null pointer nujno
+        String gov_ure;
+        if (govorilneUre == null) {
+            gov_ure = "null";
+        } else {
+            gov_ure = govorilneUre.toString();
+        }
+
         return "Student{" +
                 "id=" + id +
                 ", vpisnaStevilka=" + vpisnaStevilka +
                 ", ime='" + ime + '\'' +
                 ", priimek='" + priimek + '\'' +
                 ", letnik=" + letnik +
-                ", govorilneUre=" + govorilneUre +
+                ", govorilneUre=" + gov_ure +
                 '}';
     }
 }

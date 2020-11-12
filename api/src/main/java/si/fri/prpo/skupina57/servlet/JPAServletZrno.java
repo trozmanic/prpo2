@@ -62,13 +62,29 @@ public class JPAServletZrno extends HttpServlet {
         */
         PrintWriter writer = resp.getWriter();
 
+
+        // NOVI PROFESOR
+        writer.append("\n\nNOVI PROFESOR\n\n");
+
         Profesor profesor = new Profesor();
 
         profesor.setIme("Miha");
         profesor.setPriimek("Novak");
         profesor.setPredmet("PRPO");
 
-        Profesor profesor1 = profesorjiZrno.dodajProfesorja(profesor);
+        profesor = profesorjiZrno.dodajProfesorja(profesor);
+
+        writer.append(profesor.toString() + "\n");
+
+        writer.append("Seznam govorilnih ur profesorja:\n(prazen)\n");
+        if (profesor.getGovorilneUre() != null) {
+            profesor.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+        }
+
+
+
+        // NOVI STUDENT
+        writer.append("\n\nNOVI STUDENT\n\n");
 
         Student student = new Student();
 
@@ -77,42 +93,95 @@ public class JPAServletZrno extends HttpServlet {
         student.setLetnik(3);
         student.setVpisnaStevilka(63170000);
 
-        Student student1 = studentiZrno.dodajStudenta(student);
-        writer.append("Seznam govorilnih ur studenta: \n");
-        student1.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+        student = studentiZrno.dodajStudenta(student);
 
-        writer.append("Seznam govorilnih ur profesorja: \n");
-        profesor1.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+        writer.append(student.toString() + "\n");
+
+        writer.append("Seznam govorilnih ur studenta:\n(prazen)\n");
+        if (student.getGovorilneUre() != null) {
+            student.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+        }
+
+
+
+        // DODAJ GOVORILNO URO
+        writer.append("\n\nDODAJ GOVORILNO URO\n\n");
 
         GovorilnaUraDto govorilnaUraDto = new GovorilnaUraDto();
 
         govorilnaUraDto.setDatum(new Date());
         govorilnaUraDto.setKanal("Zoom");
-        govorilnaUraDto.setProfesor_id(2);
+        govorilnaUraDto.setProfesor_id(profesor.getId());
         govorilnaUraDto.setKapaciteta(15);
         govorilnaUraDto.setUra("12:00");
+
         GovorilnaUra govorilnaUra = upravljanjeGovorilnihUrZrno.dodajGovorilneUre(govorilnaUraDto);
+        //updatej profesorja
+        profesor = profesorjiZrno.pridobiProfesorja(profesor.getId());
+
+        writer.append(govorilnaUra.toString() + "\n");
+        writer.append(profesor.toString() + "\n");
+
+        writer.append("Seznam govorilnih ur profesorja:\n");
+        if (profesor.getGovorilneUre() != null) {
+            profesor.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+        }
+        writer.append("Seznam studentov prijavlenih na govorilne ure:\n(prazen)\n");
+        if (govorilnaUra.getStudenti() != null) {
+            govorilnaUra.getStudenti().stream().forEach(st -> writer.append(st.toString()).append("\n"));
+        }
 
 
-        writer.append("Seznam govorilnih ur profesorja: \n");
-        profesor1.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
 
+        // PRIJAVA STUDENTA NA TERMIN
+        writer.append("\n\nPRIJAVA STUDENTA NA TERMIN\n\n");
 
         PrijavaOdjavaDto prijavaOdjavaDto =  new PrijavaOdjavaDto();
-        prijavaOdjavaDto.setStudent_id(1);
-        prijavaOdjavaDto.setGovorilna_ura_id(1);
 
-        upravljanjeGovorilnihUrZrno.prijavaNaTermin(prijavaOdjavaDto);
+        prijavaOdjavaDto.setStudent_id(student.getId());
+        prijavaOdjavaDto.setGovorilna_ura_id(govorilnaUra.getId());
 
-        writer.append("Seznam govorilnih ur studenta: \n");
-        student1.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+        govorilnaUra = upravljanjeGovorilnihUrZrno.prijavaNaTermin(prijavaOdjavaDto);
+        //updatej studenta
+        student = studentiZrno.pridobiStudenta(student.getId());
+
+        writer.append(student.toString() + "\n");
+        writer.append(govorilnaUra.toString() + "\n");
+
+        writer.append("Seznam govorilnih ur studenta:\n");
+        if (student.getGovorilneUre() != null) {
+            student.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+        }
+        writer.append("Seznam studentov prijavlenih na govorilne ure:\n");
+        if (govorilnaUra.getStudenti() != null) {
+            govorilnaUra.getStudenti().stream().forEach(st -> writer.append(st.toString()).append("\n"));
+        }
 
 
-        upravljanjeGovorilnihUrZrno.odjavaOdTermina(prijavaOdjavaDto);
 
-        writer.append("Seznam govorilnih ur studenta: \n");
-        student1.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+        // ODJAVA OD TERMINA
+        writer.append("\n\nODJAVA OD TERMINA\n\n");
+        if (!upravljanjeGovorilnihUrZrno.odjavaOdTermina(prijavaOdjavaDto)) {
+            writer.append("Odjava studenta ni uspela ni studenta ali/in govorilne ure\n");
+        } else {
+            //updatej studenta
+            student = studentiZrno.pridobiStudenta(student.getId());
+            //updatej govorilno uro
+            govorilnaUra = govorilneUreZrno.pridobiGovorilnoUro(govorilnaUra.getId());
 
+            writer.append(govorilnaUra.toString() + "\n");
+            writer.append(student.toString() + "\n");
+
+            writer.append("Seznam govorilnih ur studenta:\n(prazen)\n");
+            if (student.getGovorilneUre() != null) {
+                student.getGovorilneUre().stream().forEach(gu -> writer.append(gu.toString()).append("\n"));
+            }
+            writer.append("Seznam studentov prijavlenih na govorilne ure:\n(prazen)\n");
+            if (govorilnaUra.getStudenti() != null) {
+                govorilnaUra.getStudenti().stream().forEach(st -> writer.append(st.toString()).append("\n"));
+            }
+
+        }
 
     }
 }
