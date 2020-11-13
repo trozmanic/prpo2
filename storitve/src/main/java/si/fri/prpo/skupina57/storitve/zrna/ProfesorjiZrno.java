@@ -5,6 +5,7 @@ import si.fri.prpo.skupina57.katalog.entitete.Profesor;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -16,8 +17,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class ProfesorjiZrno {
+
+    private int id;
 
     private static final Logger log = Logger.getLogger(ProfesorjiZrno.class.getName());
 
@@ -27,12 +30,13 @@ public class ProfesorjiZrno {
 
     @PostConstruct
     public void profesorjiZrnoInit(){
-        log.info("Profesorji zrno ustvarjeno.\n");
+        id = (int)(Math.random() * 10000) + 1;
+        log.info("Profesorji zrno ustvarjeno "+id+".\n");
     }
 
     @PreDestroy
     public void profesorjiZrnoDestroy(){
-        log.info("Profesorji zrno uniceno.\n");
+        log.info("Profesorji zrno uniceno "+id+".\n");
     }
 
     public Profesor pridobiProfesorja(int profesorId){

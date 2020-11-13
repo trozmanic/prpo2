@@ -9,13 +9,15 @@ import si.fri.prpo.skupina57.storitve.dtos.PrijavaOdjavaDto;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class UpravljanjeGovorilnihUrZrno {
 
+    private int id;
     private static final Logger log = Logger.getLogger(StudentiZrno.class.getName());
 
     @Inject
@@ -29,12 +31,13 @@ public class UpravljanjeGovorilnihUrZrno {
 
     @PostConstruct
     private void init(){
-        log.info("Inicializiranje zrna UpravljanjeGovorilnihUrZrno");
+        id = (int)(Math.random() * 10000) + 1;
+        log.info("Inicializiranje zrna UpravljanjeGovorilnihUrZrno "+id+".");
     }
 
     @PreDestroy
     private void destroy(){
-        log.info("Deinicializacija zrna");
+        log.info("Deinicializacija zrna "+id+".");
     }
 
     @Transactional

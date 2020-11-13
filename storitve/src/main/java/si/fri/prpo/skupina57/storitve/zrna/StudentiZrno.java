@@ -5,6 +5,7 @@ import si.fri.prpo.skupina57.katalog.entitete.Student;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -16,9 +17,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class StudentiZrno {
 
+    private int id;
     private static final Logger log = Logger.getLogger(StudentiZrno.class.getName());
 
     @PersistenceContext(unitName = "govorilne_ure-jpa")
@@ -27,12 +29,13 @@ public class StudentiZrno {
 
     @PostConstruct
     public void studentiZrnoInit(){
-        log.info("Studenti zrno ustvarjeno.\n");
+        id = (int)(Math.random() * 10000) + 1;
+        log.info("Studenti zrno ustvarjeno "+id+".\n");
     }
 
     @PreDestroy
     public void studentiZrnoDestroy(){
-        log.info("Studenti zrno uniceno.\n");
+        log.info("Studenti zrno uniceno "+id+".\n");
     }
 
     public Student pridobiStudenta(int studentId){

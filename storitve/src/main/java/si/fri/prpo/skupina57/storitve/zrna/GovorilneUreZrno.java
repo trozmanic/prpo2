@@ -5,6 +5,7 @@ import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -16,9 +17,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class GovorilneUreZrno {
 
+    private int id;
     private static final Logger log = Logger.getLogger(GovorilneUreZrno.class.getName());
 
     @PersistenceContext(unitName = "govorilne_ure-jpa")
@@ -27,12 +29,13 @@ public class GovorilneUreZrno {
 
     @PostConstruct
     public void govorilneUreZrnoInit(){
-        log.info("Govorilne ure zrno ustvarjeno.\n");
+        id = (int)(Math.random() * 10000) + 1;
+        log.info("Govorilne ure zrno ustvarjeno "+id+".\n");
     }
 
     @PreDestroy
     public void govorilneUreZrnoDestroy(){
-        log.info("Govorilne ure zrno uniceno.\n");
+        log.info("Govorilne ure zrno uniceno "+id+".\n");
     }
 
     public GovorilnaUra pridobiGovorilnoUro(int govorilnaUraId){
