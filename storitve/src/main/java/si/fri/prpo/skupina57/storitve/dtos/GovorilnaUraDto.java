@@ -3,7 +3,7 @@ package si.fri.prpo.skupina57.storitve.dtos;
 import java.util.Date;
 
 public class GovorilnaUraDto {
-    private Integer id;
+    //private Integer id;
 
     private Date datum;
 
@@ -14,7 +14,7 @@ public class GovorilnaUraDto {
     private String kanal;
 
     private Integer profesor_id;
-
+/*
     public Integer getId() {
         return id;
     }
@@ -22,7 +22,7 @@ public class GovorilnaUraDto {
     public void setId(Integer id) {
         this.id = id;
     }
-
+*/
     public Date getDatum() {
         return datum;
     }
@@ -61,5 +61,16 @@ public class GovorilnaUraDto {
 
     public void setProfesor_id(Integer profesor_id) {
         this.profesor_id = profesor_id;
+    }
+
+    @Override
+    public String toString() {
+        return "GovorilnaUraDto{" +
+                "datum=" + datum +
+                ", ura='" + ura + '\'' +
+                ", kapaciteta=" + kapaciteta +
+                ", kanal='" + kanal + '\'' +
+                ", profesor_id=" + profesor_id +
+                '}';
     }
 }

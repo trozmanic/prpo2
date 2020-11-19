@@ -1,5 +1,6 @@
 package si.fri.prpo.skupina57.katalog.entitete;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -37,6 +38,8 @@ public class GovorilnaUra {
             CascadeType.MERGE,
     },
     fetch = FetchType.EAGER)
+
+    @JsonbTransient
     @JoinTable(
             name = "zbirka",
             joinColumns = @JoinColumn(name = "govorilne_ure_id"),

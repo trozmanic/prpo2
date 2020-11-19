@@ -26,6 +26,10 @@
             <groupId>si.uni-lj.fri.prpo.skupina57</groupId>
             <artifactId>storitve</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kumuluz.ee</groupId>
+            <artifactId>kumuluzee-jax-rs-jersey</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

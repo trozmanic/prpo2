@@ -42,6 +42,8 @@ public class UpravljanjeGovorilnihUrZrno {
 
     @Transactional
     public GovorilnaUra dodajGovorilneUre(GovorilnaUraDto govorilnaUraDto){
+        log.info(govorilnaUraDto.toString());
+
         Profesor profesor = profesorjiZrno.pridobiProfesorja(govorilnaUraDto.getProfesor_id());
 
         if (profesor == null){
