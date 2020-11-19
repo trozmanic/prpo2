@@ -75,8 +75,7 @@ public class ProfesorjiVir {
     @POST
     @Path("{id}/dodaj-govorilno-uro")
     public Response dodajGovorilnoUro(@PathParam("id") Integer id, GovorilnaUraDto govorilnaUraDto){
-        log.info("Test");
-        log.info(govorilnaUraDto.getProfesor_id().toString());
+
         GovorilnaUra govorilnaUra = upravljanjeGovorilnihUrZrno.dodajGovorilneUre(govorilnaUraDto);
 
         if(govorilnaUra == null){
