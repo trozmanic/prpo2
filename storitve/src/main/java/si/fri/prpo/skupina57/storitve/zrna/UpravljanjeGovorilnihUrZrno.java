@@ -3,18 +3,19 @@ package si.fri.prpo.skupina57.storitve.zrna;
 import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
 import si.fri.prpo.skupina57.katalog.entitete.Profesor;
 import si.fri.prpo.skupina57.katalog.entitete.Student;
+import si.fri.prpo.skupina57.storitve.anotacije.BeleziKliceZrno;
 import si.fri.prpo.skupina57.storitve.dtos.GovorilnaUraDto;
 import si.fri.prpo.skupina57.storitve.dtos.PrijavaOdjavaDto;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.logging.Logger;
 
-@RequestScoped
+@ApplicationScoped
 public class UpravljanjeGovorilnihUrZrno {
 
     private int id;
@@ -39,13 +40,14 @@ public class UpravljanjeGovorilnihUrZrno {
     private void destroy(){
         log.info("Deinicializacija zrna "+id+".");
     }
-
+    @BeleziKliceZrno
     @Transactional
     public GovorilnaUra dodajGovorilneUre(GovorilnaUraDto govorilnaUraDto){
         log.info(govorilnaUraDto.toString());
 
         Profesor profesor = profesorjiZrno.pridobiProfesorja(govorilnaUraDto.getProfesor_id());
-
+        if(govorilnaUraDto.getDatum() == null)
+            govorilnaUraDto.setDatum(new Date());
         if (profesor == null){
             log.info("Profesorja ni v bazi");
             return null;
@@ -62,7 +64,7 @@ public class UpravljanjeGovorilnihUrZrno {
 
         return govorilneUreZrno.dodajGovorilnoUro(govorilnaUra);
     }
-
+    @BeleziKliceZrno
     @Transactional
     public GovorilnaUra prijavaNaTermin(PrijavaOdjavaDto prijavaDto){
         Student student = studentiZrno.pridobiStudenta(prijavaDto.getStudent_id());
@@ -83,14 +85,16 @@ public class UpravljanjeGovorilnihUrZrno {
             log.info("Ni prostora");
             return null;
         }
+        if(!govorilnaUra.getStudenti().contains(studentiZrno.pridobiStudenta(student.getId()))) {
+            govorilnaUra.getStudenti().add(student);
+            govorilnaUra.setKapaciteta(govorilnaUra.getKapaciteta() - 1);
 
-        govorilnaUra.getStudenti().add(student);
-        govorilnaUra.setKapaciteta(govorilnaUra.getKapaciteta() - 1);
+            student.getGovorilneUre().add(govorilnaUra);
+        }
 
-        student.getGovorilneUre().add(govorilnaUra);
         return govorilnaUra;
     }
-
+    @BeleziKliceZrno
     @Transactional
     public boolean odjavaOdTermina(PrijavaOdjavaDto odjavaDto){
         Student student = studentiZrno.pridobiStudenta(odjavaDto.getStudent_id());
