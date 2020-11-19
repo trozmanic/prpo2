@@ -28,9 +28,11 @@ public class GovorilnaUra {
 
     private String kanal;
 
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
+
 
     //fetch = FetchType.EAGER NUJNO, ker default je LAZY, in nam je skos dalo IndirectList not instantiated
     @ManyToMany( cascade = {

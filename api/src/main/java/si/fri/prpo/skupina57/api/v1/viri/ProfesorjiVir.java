@@ -14,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 @Path("profesorji")
@@ -27,7 +28,7 @@ public class ProfesorjiVir {
     @Inject
     private UpravljanjeGovorilnihUrZrno upravljanjeGovorilnihUrZrno;
 
-
+    private Logger log = Logger.getLogger(ProfesorjiVir.class.getName());
     @GET
     public Response pridobiProfesorje(){
         List<Profesor> Profesori = profesorjiZrno.getProfesorje();
@@ -74,7 +75,8 @@ public class ProfesorjiVir {
     @POST
     @Path("{id}/dodaj-govorilno-uro")
     public Response dodajGovorilnoUro(@PathParam("id") Integer id, GovorilnaUraDto govorilnaUraDto){
-
+        log.info("Test");
+        log.info(govorilnaUraDto.getProfesor_id().toString());
         GovorilnaUra govorilnaUra = upravljanjeGovorilnihUrZrno.dodajGovorilneUre(govorilnaUraDto);
 
         if(govorilnaUra == null){
