@@ -12,3 +12,24 @@ localhost:8080/v1/profesorji?fields=ime,priimek
 
 grficni vmesnik dokumentcije
 http://localhost:8080/api-specs/ui
+
+Preveri validator da je datum vecji od trenutnega
+
+POST http://localhost:8080/v1/profesorji/1/dodaj-govorilno-uro
+BODY:
+(neustrezen)
+{
+  "datum": "2010-10-27T11:58:22",
+  "kanal": "online",
+  "kapaciteta": 2,
+  "profesor_id": 1,
+  "ura": "12:15"
+}
+(ustrezen)
+{
+  "datum": "2030-10-27T11:58:22",
+  "kanal": "online",
+  "kapaciteta": 2,
+  "profesor_id": 1,
+  "ura": "12:15"
+}
