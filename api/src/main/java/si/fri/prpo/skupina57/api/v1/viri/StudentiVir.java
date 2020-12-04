@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina57.api.v1.viri;
 
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
 import si.fri.prpo.skupina57.katalog.entitete.Student;
 import si.fri.prpo.skupina57.storitve.dtos.PrijavaOdjavaDto;
@@ -10,8 +11,10 @@ import si.fri.prpo.skupina57.storitve.zrna.UpravljanjeGovorilnihUrZrno;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @ApplicationScoped
@@ -20,6 +23,9 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class StudentiVir {
 
+    @Context
+    protected UriInfo uriInfo;
+
     @Inject
     private StudentiZrno studentiZrno;
 
@@ -27,13 +33,23 @@ public class StudentiVir {
     @Inject
     private UpravljanjeGovorilnihUrZrno upravljanjeGovorilnihUrZrno;
 
+//    @GET
+//    public Response pridobiStudente(){
+//        List<Student> studenti = studentiZrno.getStudenti();
+//
+//        return Response.ok(studenti).header("X-Total-Count", studenti.size()).build();
+//    }
+
     @GET
-    public Response pridobiStudente(){
-        List<Student> studenti = studentiZrno.getStudenti();
+    public Response pridobiStudente() {
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        Long profesorjiCount = studentiZrno.pridobiStudenteCount(query);
 
-        return Response.ok(studenti).header("X-Total-Count", studenti.size()).build();
+        return Response
+                .ok(studentiZrno.pridobiStudente(query))
+                .header("X-Total-Count", profesorjiCount)
+                .build();
     }
-
     @GET
     @Path("{id}")
     public Response pridobiUporabnika(@PathParam("id") Integer id){

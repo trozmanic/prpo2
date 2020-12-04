@@ -1,5 +1,8 @@
 package si.fri.prpo.skupina57.storitve.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
+import si.fri.prpo.skupina57.katalog.entitete.Profesor;
 import si.fri.prpo.skupina57.katalog.entitete.Student;
 
 import javax.annotation.PostConstruct;
@@ -50,6 +53,15 @@ public class StudentiZrno {
             em.persist(student);
         }
         return student;
+    }
+
+
+    public Long pridobiStudenteCount(QueryParameters query){
+        return JPAUtils.queryEntitiesCount(em, Student.class, query);
+    }
+
+    public List<Student> pridobiStudente(QueryParameters query){
+        return JPAUtils.queryEntities(em, Student.class, query);
     }
 
     @Transactional

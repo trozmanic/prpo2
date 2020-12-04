@@ -1,0 +1,11 @@
+Paginacija
+localhost:8080/v1/profesorji?offset=4&limit=2
+
+Sorting
+localhost:8080/v1/profesorji?order=ime DESC
+
+Filtering
+localhost:8080/v1/profesorji?filter=ime:EQ:'Miha'
+
+Partial responses
+localhost:8080/v1/profesorji?fields=ime,priimek

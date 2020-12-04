@@ -31,6 +31,7 @@
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-json-b-yasson</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

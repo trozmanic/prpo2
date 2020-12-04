@@ -1,6 +1,9 @@
 package si.fri.prpo.skupina57.storitve.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
+import si.fri.prpo.skupina57.katalog.entitete.Profesor;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -42,6 +45,15 @@ public class GovorilneUreZrno {
         GovorilnaUra g = em.find(GovorilnaUra.class, govorilnaUraId);
 
         return g;
+    }
+
+
+    public Long pridobiGovorilneUreCount(QueryParameters query){
+        return JPAUtils.queryEntitiesCount(em, GovorilnaUra.class, query);
+    }
+
+    public List<GovorilnaUra> pridobiGovorilneUre(QueryParameters query){
+        return JPAUtils.queryEntities(em, GovorilnaUra.class, query);
     }
 
     @Transactional

@@ -1,6 +1,16 @@
 package si.fri.prpo.skupina57.api.v1.viri;
 
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.headers.Header;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
 import si.fri.prpo.skupina57.katalog.entitete.Student;
 import si.fri.prpo.skupina57.storitve.zrna.GovorilneUreZrno;
@@ -22,25 +32,57 @@ import java.util.List;
 public class GovorilneUreVir {
 
 
-    //@Context
-    //protected UriInfo uriInfo;
+    @Context
+    protected UriInfo uriInfo;
 
     @Inject
     private GovorilneUreZrno govorilneUreZrno;
 
 
+//    @GET
+//    public Response pridobiGovorilneUre(){
+//        List<GovorilnaUra> govorilneUre = govorilneUreZrno.getGovorilneUre();
+//
+//        return Response.ok(govorilneUre).header("X-Total-Count", govorilneUre.size()).build();
+//    }
+
+    @Operation(description = "Vrne seznam govorilnih ur", summary = "Seznam govorilnih ur")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "Seznam govorilnih ur",
+                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class, type = SchemaType.ARRAY)),
+                    headers = {@Header(name= "X-Total-Count", description = "Število vrnjenih govorilnih ur")}
+            )
+    })
     @GET
     public Response pridobiGovorilneUre(){
-        List<GovorilnaUra> govorilneUre = govorilneUreZrno.getGovorilneUre();
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        Long govorilneUreCount = govorilneUreZrno.pridobiGovorilneUreCount(query);
 
-        return Response.ok(govorilneUre).header("X-Total-Count", govorilneUre.size()).build();
+        return Response
+                .ok(govorilneUreZrno.pridobiGovorilneUre(query))
+                .header("X-Total-Count", govorilneUreCount)
+                .build();
     }
 
 
-
+    @Operation(description = "Vrne podrobnosti govorilne ure", summary = "Podrobsnosti govorilne ure")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "Podrobsnosti govorilne ure",
+                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
+            ),
+            @APIResponse(responseCode = "404",
+                    description = "Govorilna ura ne obstaja",
+                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
+            )
+    })
     @GET
     @Path("{id}")
-    public Response pridobiGovorilnoUro(@PathParam("id") Integer id){
+    public Response pridobiGovorilnoUro(@Parameter(
+            description = "identifikator govorilne ure za prodobivanje elementa",
+            required = true
+    )@PathParam("id") Integer id){
         GovorilnaUra govorilnaUra = govorilneUreZrno.pridobiGovorilnoUro(id);
 
         if(govorilnaUra != null){
@@ -52,20 +94,70 @@ public class GovorilneUreVir {
         }
     }
 
+
+
+
+    @Operation(description = "Ustvari novo govorilno uro", summary = "Dodaj govorilno uro")
+    @APIResponses({
+            @APIResponse(responseCode = "201",
+                    description = "Govorilna ura uspešno dodana",
+                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
+            ),
+            @APIResponse(responseCode = "405", description = "Validacijska napaka")
+    })
     @POST
-    public Response dodajGovorilnoUro(GovorilnaUra govorilnaUra){
+    public Response dodajGovorilnoUro(@RequestBody(
+            description = "DTO objekt za dodajanje govorilnih ur",
+            required = true,
+            content = @Content(
+                    schema = @Schema(implementation = GovorilnaUra.class)
+            )
+    ) GovorilnaUra govorilnaUra){
         return Response.status(Response.Status.CREATED).entity(govorilneUreZrno.dodajGovorilnoUro(govorilnaUra)).build();
     }
 
+
+
+    @Operation(description = "Posodobi govorilno uro", summary = "Posodobi govorilno uro")
+    @APIResponses({
+            @APIResponse(responseCode = "201",
+                    description = "Uspešno posodobil govorilno uro",
+                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
+            ),
+            @APIResponse(responseCode = "405", description = "Validacijska napaka")
+    })
     @PUT
     @Path("{id}")
-    public Response posodobiGovorilnoUro(@PathParam("id") Integer id, GovorilnaUra govorilnaUra){
+    public Response posodobiGovorilnoUro(@Parameter(
+            description = "identifikator govorilne ure za posodabljanje elementa",
+            required = true
+    )@PathParam("id") Integer id, @RequestBody(
+            description = "DTO objekt za posodabljanje govorilnih ur",
+            required = true,
+            content = @Content(
+                    schema = @Schema(implementation = GovorilnaUra.class)
+            )
+    )GovorilnaUra govorilnaUra){
         return Response.status(Response.Status.OK).entity(govorilneUreZrno.posodobiGovorilnoUro(id, govorilnaUra)).build();
     }
 
+    @Operation(description = "Briše govorilno uro", summary = "Briše govorilno uro")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "Govorilna ura uspešno izbrisana",
+                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
+            ),
+            @APIResponse(responseCode = "404",
+                    description = "Govorilna ura ne obstaja",
+                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
+            )
+    })
     @DELETE
     @Path("{id}")
-    public Response odstraniGovorilnoUro(@PathParam("id") Integer id){
+    public Response odstraniGovorilnoUro(@Parameter(
+            description = "identifikator govorilne ure za brisanje elementa",
+            required = true
+    )@PathParam("id") Integer id){
         if(govorilneUreZrno.odstraniGovorilnoUro(id)){
             return Response.status(Response.Status.OK).build();
         }

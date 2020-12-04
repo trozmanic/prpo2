@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina57.api.v1.viri;
 
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
 import si.fri.prpo.skupina57.katalog.entitete.Profesor;
 import si.fri.prpo.skupina57.storitve.dtos.GovorilnaUraDto;
@@ -11,8 +12,10 @@ import si.fri.prpo.skupina57.storitve.zrna.UpravljanjeGovorilnihUrZrno;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,6 +25,9 @@ import java.util.logging.Logger;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProfesorjiVir {
 
+    @Context
+    protected UriInfo uriInfo;
+
     @Inject
     private ProfesorjiZrno profesorjiZrno;
 
@@ -29,11 +35,22 @@ public class ProfesorjiVir {
     private UpravljanjeGovorilnihUrZrno upravljanjeGovorilnihUrZrno;
 
     private Logger log = Logger.getLogger(ProfesorjiVir.class.getName());
+//    @GET
+//    public Response pridobiProfesorje(){
+//        List<Profesor> Profesori = profesorjiZrno.getProfesorje();
+//
+//        return Response.ok(Profesori).header("X-Total-Count", Profesori.size()).build();
+//    }
+
     @GET
     public Response pridobiProfesorje(){
-        List<Profesor> Profesori = profesorjiZrno.getProfesorje();
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        Long profesorjiCount = profesorjiZrno.pridobiProfesorjeCount(query);
 
-        return Response.ok(Profesori).header("X-Total-Count", Profesori.size()).build();
+        return Response
+                .ok(profesorjiZrno.pridobiProfesorje(query))
+                .header("X-Total-Count", profesorjiCount)
+                .build();
     }
 
     @GET
