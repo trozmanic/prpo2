@@ -13,6 +13,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
 import si.fri.prpo.skupina57.katalog.entitete.Profesor;
+import si.fri.prpo.skupina57.storitve.anotacije.ValidacijaDatuma;
 import si.fri.prpo.skupina57.storitve.dtos.GovorilnaUraDto;
 import si.fri.prpo.skupina57.storitve.zrna.ProfesorjiZrno;
 import si.fri.prpo.skupina57.storitve.zrna.UpravljanjeGovorilnihUrZrno;
@@ -168,7 +169,7 @@ public class ProfesorjiVir {
         }
     }
 
-
+    @ValidacijaDatuma
     @Operation(description = "Ustvari novo govorilno uro", summary = "Dodaj govorilno uro")
     @APIResponses({
             @APIResponse(responseCode = "201",

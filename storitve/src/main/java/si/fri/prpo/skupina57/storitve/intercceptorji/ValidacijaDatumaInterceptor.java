@@ -19,8 +19,17 @@ public class ValidacijaDatumaInterceptor {
 
     @AroundInvoke
     public Object validirajDatum(InvocationContext context) throws Exception{
+
+        log.info("Pognan validator datuma");
+
+        log.info(context.getParameters()[0].toString());
+        log.info(context.getParameters()[1].toString());
+
+
         if(context.getParameters().length == 1 && context.getParameters()[0] instanceof GovorilnaUraDto){
             GovorilnaUraDto govorilnaUraDto = (GovorilnaUraDto) context.getParameters()[0];
+
+            log.info("Pognan validator datuma44");
 
             if(govorilnaUraDto.getDatum() != null){
                 Date datum = govorilnaUraDto.getDatum();
