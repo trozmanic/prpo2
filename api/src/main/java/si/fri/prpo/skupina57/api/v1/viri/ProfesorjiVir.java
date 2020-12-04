@@ -121,7 +121,7 @@ public class ProfesorjiVir {
 
     @Operation(description = "Posodobi profesorja", summary = "Posodobi profesorja")
     @APIResponses({
-            @APIResponse(responseCode = "201",
+            @APIResponse(responseCode = "200",
                     description = "Uspešno posodobil profesorja",
                     content = @Content(schema = @Schema(implementation = Profesor.class))
             ),
@@ -192,7 +192,7 @@ public class ProfesorjiVir {
             description = "DTO objekt za dodajanje govorilnih ur",
             required = true,
             content = @Content(
-                    schema = @Schema(implementation = GovorilnaUra.class)
+                    schema = @Schema(implementation = GovorilnaUraDto.class)
             )
     ) GovorilnaUraDto govorilnaUraDto){
 

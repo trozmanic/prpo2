@@ -120,7 +120,7 @@ public class GovorilneUreVir {
 
     @Operation(description = "Posodobi govorilno uro", summary = "Posodobi govorilno uro")
     @APIResponses({
-            @APIResponse(responseCode = "201",
+            @APIResponse(responseCode = "200",
                     description = "Uspešno posodobil govorilno uro",
                     content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
             ),
