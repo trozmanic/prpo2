@@ -9,3 +9,6 @@ localhost:8080/v1/profesorji?filter=ime:EQ:'Miha'
 
 Partial responses
 localhost:8080/v1/profesorji?fields=ime,priimek
+
+grficni vmesnik dokumentcije
+http://localhost:8080/api-specs/ui

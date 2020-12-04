@@ -75,8 +75,7 @@ public class StudentiVir {
                     content = @Content(schema = @Schema(implementation = Student.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Studenta ne obstaja",
-                    content = @Content(schema = @Schema(implementation = Student.class))
+                    description = "Studenta ne obstaja"
             )
     })
     @GET
@@ -147,8 +146,7 @@ public class StudentiVir {
                     content = @Content(schema = @Schema(implementation = Student.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Student ura ne obstaja",
-                    content = @Content(schema = @Schema(implementation = Student.class))
+                    description = "Student ura ne obstaja"
             )
     })
     @DELETE
@@ -172,8 +170,7 @@ public class StudentiVir {
                     content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Student ne obstaja",
-                    content = @Content(schema = @Schema(implementation = Student.class))
+                    description = "Student ne obstaja"
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })
@@ -205,8 +202,7 @@ public class StudentiVir {
                     content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Student ne obstaja",
-                    content = @Content(schema = @Schema(implementation = Student.class))
+                    description = "Student ne obstaja"
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })

@@ -78,8 +78,7 @@ public class ProfesorjiVir {
                     content = @Content(schema = @Schema(implementation = Profesor.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Profesor ne obstaja",
-                    content = @Content(schema = @Schema(implementation = Profesor.class))
+                    description = "Profesor ne obstaja"
             )
     })
     @GET
@@ -152,8 +151,7 @@ public class ProfesorjiVir {
                     content = @Content(schema = @Schema(implementation = Profesor.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Profesor ne obstaja",
-                    content = @Content(schema = @Schema(implementation = Profesor.class))
+                    description = "Profesor ne obstaja"
             )
     })
     @DELETE
@@ -178,8 +176,7 @@ public class ProfesorjiVir {
                     content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Profesor ne obstaja",
-                    content = @Content(schema = @Schema(implementation = Profesor.class))
+                    description = "Profesor ne obstaja"
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })

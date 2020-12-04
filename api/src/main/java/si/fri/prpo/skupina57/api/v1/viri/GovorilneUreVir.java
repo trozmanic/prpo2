@@ -73,8 +73,7 @@ public class GovorilneUreVir {
                     content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Govorilna ura ne obstaja",
-                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
+                    description = "Govorilna ura ne obstaja"
             )
     })
     @GET
@@ -148,8 +147,7 @@ public class GovorilneUreVir {
                     content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
             ),
             @APIResponse(responseCode = "404",
-                    description = "Govorilna ura ne obstaja",
-                    content = @Content(schema = @Schema(implementation = GovorilnaUra.class))
+                    description = "Govorilna ura ne obstaja"
             )
     })
     @DELETE
