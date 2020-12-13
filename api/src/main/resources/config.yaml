@@ -1,7 +1,14 @@
 kumuluzee:
+  name: govorilne-ure
+  version: 1.0.0
+  env:
+    name: dev
 
   datasources:
       - jndi-name: jdbc/KatalogDB
         connection-url: jdbc:postgresql://localhost:5432/govorilne_ure
         username: postgres
         password: postgres
+integrations:
+  komnunikacijski-kanali:
+    base-url: http://localhost:8081/v1

@@ -1,10 +1,12 @@
 package si.fri.prpo.skupina57.storitve.zrna;
 
+import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
 import si.fri.prpo.skupina57.katalog.entitete.Profesor;
 import si.fri.prpo.skupina57.katalog.entitete.Student;
 import si.fri.prpo.skupina57.storitve.anotacije.BeleziKliceZrno;
 import si.fri.prpo.skupina57.storitve.dtos.GovorilnaUraDto;
+import si.fri.prpo.skupina57.storitve.dtos.KanalDto;
 import si.fri.prpo.skupina57.storitve.dtos.PrijavaOdjavaDto;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +14,12 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -20,6 +28,9 @@ public class UpravljanjeGovorilnihUrZrno {
 
     private int id;
     private static final Logger log = Logger.getLogger(StudentiZrno.class.getName());
+
+    private Client client;
+    private String baseUrl;
 
     @Inject
     StudentiZrno studentiZrno;
@@ -34,6 +45,11 @@ public class UpravljanjeGovorilnihUrZrno {
     private void init(){
         id = (int)(Math.random() * 10000) + 1;
         log.info("Inicializiranje zrna UpravljanjeGovorilnihUrZrno "+id+".");
+
+        client = ClientBuilder.newClient();
+        baseUrl = ConfigurationUtil.getInstance()
+                .get("integrations.komnunikacijski-kanali.base-url:")
+                .orElse("http://localhost:8081/v1");
     }
 
     @PreDestroy
@@ -58,6 +74,8 @@ public class UpravljanjeGovorilnihUrZrno {
         govorilnaUra.setKanal(govorilnaUraDto.getKanal());
         govorilnaUra.setKapaciteta(govorilnaUraDto.getKapaciteta());
         govorilnaUra.setUra(govorilnaUraDto.getUra());
+
+        dodajKanal(govorilnaUraDto.getKanal());
 
         profesor.getGovorilneUre().add(govorilnaUra);
 
@@ -118,5 +136,15 @@ public class UpravljanjeGovorilnihUrZrno {
 
         return true;
 
+    }
+
+    public void dodajKanal(String naziv){
+        try {
+            client.target(baseUrl+"/kanali")
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.json(new KanalDto(naziv)));
+        }catch (WebApplicationException | ProcessingException e){
+            log.info(e.getMessage());
+        }
     }
 }
