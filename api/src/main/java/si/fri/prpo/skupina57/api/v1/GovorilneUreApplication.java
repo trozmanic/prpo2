@@ -39,9 +39,8 @@ STUDENT
 
 curl -L -X POST 'http://localhost:8082/auth/realms/govorilne_ure/protocol/openid-connect/token' \
 -H 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'client_id=govorilne_ure_api' \
+--data-urlencode 'client_id=govorilne_ure_token' \
 --data-urlencode 'grant_type=password' \
---data-urlencode 'client_secret=8bf33154-dda6-4d6a-9c35-f91da5cd5090' \
 --data-urlencode 'scope=openid' \
 --data-urlencode 'username=student' \
 --data-urlencode 'password=student'
@@ -51,9 +50,8 @@ PROFESOR
 
 curl -L -X POST 'http://localhost:8082/auth/realms/govorilne_ure/protocol/openid-connect/token' \
 -H 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'client_id=govorilne_ure_api' \
+--data-urlencode 'client_id=govorilne_ure_token' \
 --data-urlencode 'grant_type=password' \
---data-urlencode 'client_secret=8bf33154-dda6-4d6a-9c35-f91da5cd5090' \
 --data-urlencode 'scope=openid' \
 --data-urlencode 'username=profesor' \
 --data-urlencode 'password=profesor'
