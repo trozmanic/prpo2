@@ -2,6 +2,7 @@ package si.fri.prpo.skupina57.api.v1.viri;
 
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -18,6 +19,8 @@ import si.fri.prpo.skupina57.storitve.dtos.PrijavaOdjavaDto;
 import si.fri.prpo.skupina57.storitve.zrna.StudentiZrno;
 import si.fri.prpo.skupina57.storitve.zrna.UpravljanjeGovorilnihUrZrno;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -27,6 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
+@Secure
 @ApplicationScoped
 @Path("studenti")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -57,6 +61,7 @@ public class StudentiVir {
                     headers = {@Header(name= "X-Total-Count", description = "Število vrnjenih studentov")}
             )
     })
+    @PermitAll
     @GET
     public Response pridobiStudente() {
         QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
@@ -78,6 +83,7 @@ public class StudentiVir {
                     description = "Studenta ne obstaja"
             )
     })
+    @PermitAll
     @GET
     @Path("{id}")
     public Response pridobiUporabnika(@Parameter(
@@ -104,6 +110,7 @@ public class StudentiVir {
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })
+    @RolesAllowed("profesor")
     @POST
     public Response dodajStudenta(@RequestBody(
             description = "DTO objekt za dodajanje studenta",
@@ -123,6 +130,7 @@ public class StudentiVir {
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })
+    @RolesAllowed("profesor")
     @PUT
     @Path("{id}")
     public Response posodobiStudenta(@Parameter(
@@ -149,6 +157,7 @@ public class StudentiVir {
                     description = "Student ura ne obstaja"
             )
     })
+    @RolesAllowed("profesor")
     @DELETE
     @Path("{id}")
     public Response odstraniStudenta(@Parameter(
@@ -174,6 +183,7 @@ public class StudentiVir {
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })
+    @RolesAllowed("student")
     @POST
     @Path("{id}/prijava-na-termin")
     public Response prijavaNaTermin(@Parameter(
@@ -206,6 +216,7 @@ public class StudentiVir {
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })
+    @RolesAllowed("student")
     @POST
     @Path("{id}/odjava-od-termina")
     public Response odjavaOdTermina(@Parameter(

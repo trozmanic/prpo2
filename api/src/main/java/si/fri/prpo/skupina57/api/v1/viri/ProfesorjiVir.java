@@ -2,6 +2,7 @@ package si.fri.prpo.skupina57.api.v1.viri;
 
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -19,6 +20,8 @@ import si.fri.prpo.skupina57.storitve.zrna.ProfesorjiZrno;
 import si.fri.prpo.skupina57.storitve.zrna.UpravljanjeGovorilnihUrZrno;
 
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -29,6 +32,7 @@ import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.logging.Logger;
 
+@Secure
 @ApplicationScoped
 @Path("profesorji")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -59,6 +63,7 @@ public class ProfesorjiVir {
                     headers = {@Header(name= "X-Total-Count", description = "Število vrnjenih govorilnih ur")}
             )
     })
+    @PermitAll
     @GET
     public Response pridobiProfesorje(){
         QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
@@ -82,6 +87,7 @@ public class ProfesorjiVir {
                     description = "Profesor ne obstaja"
             )
     })
+    @PermitAll
     @GET
     @Path("{id}")
     public Response pridobiProfesorja(@Parameter(
@@ -108,6 +114,7 @@ public class ProfesorjiVir {
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })
+    @RolesAllowed("profesor")
     @POST
     public Response dodajProfesorja(@RequestBody(
             description = "Objekt za dodajanje profesorjev",
@@ -127,6 +134,7 @@ public class ProfesorjiVir {
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })
+    @RolesAllowed("profesor")
     @PUT
     @Path("{id}")
     public Response posodobiProfesorja(@Parameter(
@@ -155,6 +163,7 @@ public class ProfesorjiVir {
                     description = "Profesor ne obstaja"
             )
     })
+    @RolesAllowed("profesor")
     @DELETE
     @Path("{id}")
     public Response odstraniProfesorja(@Parameter(
@@ -181,6 +190,7 @@ public class ProfesorjiVir {
             ),
             @APIResponse(responseCode = "405", description = "Validacijska napaka")
     })
+    @RolesAllowed("profesor")
     @POST
     @Path("{id}/dodaj-govorilno-uro")
     public Response dodajGovorilnoUro(@Parameter(

@@ -9,6 +9,16 @@ kumuluzee:
         connection-url: jdbc:postgresql://localhost:5432/govorilne_ure
         username: postgres
         password: postgres
+  security:
+    keycloak:
+      json: '{
+                 "realm": "govorilne_ure",
+                 "bearer-only": true,
+                 "auth-server-url": "http://localhost:8082/auth",
+                 "ssl-required": "external",
+                 "resource": "govorilne_ure_api",
+                 "confidential-port": 0
+               }'
 integrations:
   komnunikacijski-kanali:
     base-url: http://localhost:8081/v1
