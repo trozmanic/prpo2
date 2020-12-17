@@ -100,3 +100,6 @@ IZBRALI SMO PROSTI DAN NE ZAVRNE
     "kapaciteta": 100,
     "kanal": "zoom"
 }
+
+HEALTH
+http://localhost:8080/health

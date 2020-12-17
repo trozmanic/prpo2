@@ -33,6 +33,16 @@
             <artifactId>kumuluzee-rest-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.kumuluz.ee.rest</groupId>
+            <artifactId>kumuluzee-rest-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kumuluz.ee.health</groupId>
+            <artifactId>kumuluzee-health</artifactId>
+        </dependency>
+
 
     </dependencies>
 </project>

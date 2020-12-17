@@ -9,6 +9,13 @@ kumuluzee:
         connection-url: jdbc:postgresql://localhost:5432/govorilne_ure
         username: postgres
         password: postgres
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/KatalogDB
+      disk-space-health-check:
+        threshold: 100000000
   security:
     keycloak:
       json: '{
