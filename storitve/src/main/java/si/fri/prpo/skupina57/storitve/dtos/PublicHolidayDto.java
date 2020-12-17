@@ -1,7 +1,5 @@
 package si.fri.prpo.skupina57.storitve.dtos;
 
-import java.util.Date;
-
 public class PublicHolidayDto {
 
     private String date;
@@ -54,18 +52,3 @@ public class PublicHolidayDto {
         this.type = type;
     }
 }
-
-/*
-https://date.nager.at/Api/v2/PublicHolidays/2020/SI
-base=date.nager.at/Api/v2/PublicHolidays/
-year:
-Date d=new Date();
-        int year=d.getYear();
-+ "/SI"
-
-@ApplicationScoped
-public class TodoApiOdjemalec {
-
-
-}
-* */
