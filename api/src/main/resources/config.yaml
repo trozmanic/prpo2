@@ -22,3 +22,5 @@ kumuluzee:
 integrations:
   komnunikacijski-kanali:
     base-url: http://localhost:8081/v1
+  zunanji-vir:
+    base-url: date.nager.at/Api/v2/PublicHolidays

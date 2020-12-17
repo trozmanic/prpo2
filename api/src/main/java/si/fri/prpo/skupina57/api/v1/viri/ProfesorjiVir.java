@@ -16,6 +16,7 @@ import si.fri.prpo.skupina57.katalog.entitete.GovorilnaUra;
 import si.fri.prpo.skupina57.katalog.entitete.Profesor;
 import si.fri.prpo.skupina57.storitve.anotacije.ValidacijaDatuma;
 import si.fri.prpo.skupina57.storitve.dtos.GovorilnaUraDto;
+import si.fri.prpo.skupina57.storitve.odjemalci.PublicHollidayOjemalec;
 import si.fri.prpo.skupina57.storitve.zrna.ProfesorjiZrno;
 import si.fri.prpo.skupina57.storitve.zrna.UpravljanjeGovorilnihUrZrno;
 
@@ -47,6 +48,9 @@ public class ProfesorjiVir {
 
     @Inject
     private UpravljanjeGovorilnihUrZrno upravljanjeGovorilnihUrZrno;
+
+    @Inject
+    private PublicHollidayOjemalec publicHollidayOjemalec;
 
     private Logger log = Logger.getLogger(ProfesorjiVir.class.getName());
 //    @GET
@@ -204,12 +208,19 @@ public class ProfesorjiVir {
             )
     ) GovorilnaUraDto govorilnaUraDto){
 
-        GovorilnaUra govorilnaUra = upravljanjeGovorilnihUrZrno.dodajGovorilneUre(govorilnaUraDto);
 
-        if(govorilnaUra == null){
-            return Response.status(Response.Status.NOT_FOUND).build();
+
+        if (publicHollidayOjemalec.aliJeJavniPraznik(govorilnaUraDto.getDatum())) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } else {
+            GovorilnaUra govorilnaUra = upravljanjeGovorilnihUrZrno.dodajGovorilneUre(govorilnaUraDto);
+
+            if(govorilnaUra == null){
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            return Response.status(Response.Status.CREATED).entity(govorilnaUra).build();
         }
 
-        return Response.status(Response.Status.CREATED).entity(govorilnaUra).build();
     }
 }

@@ -33,3 +33,70 @@ BODY:
   "profesor_id": 1,
   "ura": "12:15"
 }
+
+AVTENTIKACIJA
+
+
+//authentikacija
+// host port 8082  (8080 main app, 8081 secondary app)
+// docker run -p 8082:8080 -e KEYCLOAK_USER=editor778 -e KEYCLOAK_PASSWORD=editthispa44ss jboss/keycloak:11.0.3
+// username: editor778 password: editthispa44ss
+// management http://localhost:8082/
+// roles: profesor, student
+// uporabniki:
+// username: profesor pass: profesor
+// username: student pass: student
+
+/*
+
+GET TOKEN
+
+STUDENT
+
+curl -L -X POST 'http://localhost:8082/auth/realms/govorilne_ure/protocol/openid-connect/token' \
+-H 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=govorilne_ure_token' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'scope=openid' \
+--data-urlencode 'username=student' \
+--data-urlencode 'password=student'
+
+
+PROFESOR
+
+curl -L -X POST 'http://localhost:8082/auth/realms/govorilne_ure/protocol/openid-connect/token' \
+-H 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=govorilne_ure_token' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'scope=openid' \
+--data-urlencode 'username=profesor' \
+--data-urlencode 'password=profesor'
+
+
+v postman kopirej token pod auth: bearer token
+
+pol pa normalno api tko kot prej
+
+ */
+
+
+
+TEST ZUNANJI API
+URL: http://localhost:8080/v1/profesorji/1/dodaj-govorilno-uro      POST METHOD!!!
+IZBRALI SMO PRAZNIK, ZAVRNE
+{
+    "profesor_id": 1,
+    "datum":"2020-12-25T18:25:43.511Z",
+    "ura": "14:15",
+    "kapaciteta": 100,
+    "kanal": "zoom"
+}
+
+IZBRALI SMO PROSTI DAN NE ZAVRNE
+{
+    "profesor_id": 1,
+    "datum":"2020-12-27T18:25:43.511Z",
+    "ura": "14:15",
+    "kapaciteta": 100,
+    "kanal": "zoom"
+}
