@@ -10,7 +10,7 @@ import javax.annotation.security.DeclareRoles;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@DeclareRoles({"profesor", "student"})
+//@DeclareRoles({"profesor", "student"})
 @OpenAPIDefinition(info = @Info(title = "Govorilne Ure API", version = "v1",
         contact = @Contact(email = "govrilneure@mail.com"),
         license = @License(name = "dev"), description = "API za govorilne ure."),

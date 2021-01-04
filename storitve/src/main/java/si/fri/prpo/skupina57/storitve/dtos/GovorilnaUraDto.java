@@ -1,10 +1,13 @@
 package si.fri.prpo.skupina57.storitve.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class GovorilnaUraDto {
     //private Integer id;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date datum;
 
     private String ura;
